@@ -9,7 +9,7 @@
 - Filippo Giovanni Del Nero
 
 ## Assignment
-You are to implement a Telegram bot using Node- RED capable of answering four queries
+You are to implement a Telegram bot using Node-RED capable of answering four queries
 - Return the average temperature in Milano or Hamburg based on the last ten readings of sensor.community
 - Return the maximum and minimum humidity in Milano or Hamburg based on the last ten readings of sensor.community
 - Return the list of user names the bot interacted with, until the time of the query
