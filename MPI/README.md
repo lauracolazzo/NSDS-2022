@@ -13,7 +13,7 @@
 You are to implement a simple traffic simulator.
 
 Consider a linear road divided into consecutive
-segments numbered 0..N as in the figure below
+segments numbered 0..N:
 - N is represented by variable num_segments in the template
 - You may assume the number of segments to be a multiple of the number of processes
 
@@ -31,4 +31,5 @@ Every 10 iterations, you have to compute the total number of cars that are curre
 - The code for printing is already in the template
 	- Run the simulation in parallel on multiple processes, minimizing synchronization and communication as much as possible
 	- You may set DEBUG to 1 to obtain deterministic values and check the correctness of your code
-- At each round a single car enters the road – Cars always move to the next segment
+- At each round a single car enters the road
+- Cars always move to the next segment
