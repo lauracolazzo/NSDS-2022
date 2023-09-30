@@ -1,0 +1,405 @@
+[
+    {
+        "id": "07ad4deceb295a11",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4fcc35d5b7ff79aa",
+        "type": "debug",
+        "z": "07ad4deceb295a11",
+        "name": "debug 7",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "a267dcc23f74062c",
+        "type": "function",
+        "z": "07ad4deceb295a11",
+        "name": "save humidity and temperatures",
+        "func": "\nfor (let i = 0; i < msg.payload.sensordatavalues.length; i++) {\n    if (msg.payload.sensordatavalues[i].value_type == \"temperature\") {\n        let array = []\n        array = global.get('m_temps')\n        for (let index = 0; index < 10; index++) {\n            array[10 - index] = array[9 - index]\n        }\n        array[0] = Number(msg.payload.sensordatavalues[i].value)\n        global.set(\"m_temps\", array)\n    }\n    if (msg.payload.sensordatavalues[i].value_type == \"humidity\") {\n        let array = []\n        array = global.get('m_humidities')\n        for (let index = 0; index < 10; index++) {\n            array[10 - index] = array[9 - index]\n        }\n        array[0] = Number(msg.payload.sensordatavalues[i].value)\n        global.set(\"m_humidities\", array)\n    }\n}\nmsg.payload = global.get('m_temps')\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "\nglobal.set(\"m_humidities\",[])\n\nglobal.set(\"m_temps\",[])",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 680,
+        "wires": [
+            [
+                "4fcc35d5b7ff79aa"
+            ]
+        ]
+    },
+    {
+        "id": "cc57460e19cf03dd",
+        "type": "mqtt in",
+        "z": "07ad4deceb295a11",
+        "name": "",
+        "topic": "/smartcity/milan",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "8e8002c211a3bca0",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 280,
+        "y": 680,
+        "wires": [
+            [
+                "a267dcc23f74062c"
+            ]
+        ]
+    },
+    {
+        "id": "7f812a91d86396ec",
+        "type": "debug",
+        "z": "07ad4deceb295a11",
+        "name": "debug 8",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "68933516eca0cd83",
+        "type": "function",
+        "z": "07ad4deceb295a11",
+        "name": "save humidity and temperatures",
+        "func": "\nfor (let i = 0; i < msg.payload.sensordatavalues.length; i++) {\n    if (msg.payload.sensordatavalues[i].value_type == \"temperature\") {\n        let array = []\n        array = global.get('h_temps')\n        for (let index = 0; index < 10; index++) {\n            array[10 - index] = array[9 - index]\n        }\n        array[0] = Number(msg.payload.sensordatavalues[i].value)\n        global.set(\"h_temps\", array)\n    }\n    if (msg.payload.sensordatavalues[i].value_type == \"humidity\") {\n        let array = []\n        array = global.get('h_humidities')\n        for (let index = 0; index < 10; index++) {\n            array[10 - index] = array[9 - index]\n        }\n        array[0] = Number(msg.payload.sensordatavalues[i].value)\n        global.set(\"h_humidities\", array)\n    }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "\nglobal.set(\"h_humidities\",[])\n\nglobal.set(\"h_temps\",[])",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 760,
+        "wires": [
+            [
+                "7f812a91d86396ec"
+            ]
+        ]
+    },
+    {
+        "id": "05bf81ddcbbb29af",
+        "type": "mqtt in",
+        "z": "07ad4deceb295a11",
+        "name": "",
+        "topic": "/smartcity/hamburg",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "8e8002c211a3bca0",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 760,
+        "wires": [
+            [
+                "68933516eca0cd83"
+            ]
+        ]
+    },
+    {
+        "id": "5ce9e16e2a707989",
+        "type": "chatbot-telegram-receive",
+        "z": "07ad4deceb295a11",
+        "bot": "68e5cdf36e1f8a81",
+        "botProduction": "",
+        "x": 90,
+        "y": 160,
+        "wires": [
+            [
+                "dc7de295085743cb",
+                "42e1a6a23c3de46c"
+            ]
+        ]
+    },
+    {
+        "id": "d9e94a5c0f2b87bc",
+        "type": "chatbot-telegram-send",
+        "z": "07ad4deceb295a11",
+        "bot": "68e5cdf36e1f8a81",
+        "botProduction": "",
+        "track": false,
+        "passThrough": false,
+        "errorOutput": false,
+        "outputs": 0,
+        "x": 950,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "42e1a6a23c3de46c",
+        "type": "function",
+        "z": "07ad4deceb295a11",
+        "name": "dispatcher",
+        "func": "msg.payload.inbound = false\nmsg.payload.fallback = null\ndelete msg.ts\ndelete msg.transport\nflow.set(\"chatId\", msg.payload.chatId)\nflow.set(\"chatId\", msg.payload.chatId)\n\nif (msg.payload.content == 'What is the average temperature in Milan?') {\n    return [null, msg, null,null,null,null]\n} else if (msg.payload.content == 'What is the average temperature in Hamburg?') {\n    return [msg, null, null,null,null,null]\n} else if (msg.payload.content.startsWith(\"My name is \")){\n    let users=flow.get(\"users\")\n    users.push(msg.payload.content.substring(11, msg.payload.content.length - 1))\n    return [null, null, msg, null, null, null]\n} else if (msg.payload.content == 'What is the humidity in Hamburg?'){\n    return [null, null, null, msg, null,null]\n} else if (msg.payload.content == 'What is the humidity in Milan?'){\n    return [null, null, null, null, null,msg]\n} else if (msg.payload.content == 'Who did you talk to?'){\n    return [null, null, null, null, null,null, msg]\n}else if (msg.payload.content.startsWith('Have you ever talked to ')) {\n    return [null, null, null, null, null, null,null, msg]\n}\nelse{\n    return [null, null, null, null, msg,null]\n}",
+        "outputs": 8,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\nflow.set(\"users\",[])",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 180,
+        "wires": [
+            [
+                "e81ba19afdb57f6a"
+            ],
+            [
+                "97fc9b727e8b61ae"
+            ],
+            [
+                "88ec568d72bc2302"
+            ],
+            [
+                "c79a838fed924be5"
+            ],
+            [
+                "b7b3728432da58ec"
+            ],
+            [
+                "a5967aec7491df0e"
+            ],
+            [
+                "156c5509b2bdf8ee"
+            ],
+            [
+                "12c114aa1e81765f"
+            ]
+        ]
+    },
+    {
+        "id": "dc7de295085743cb",
+        "type": "debug",
+        "z": "07ad4deceb295a11",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "e81ba19afdb57f6a",
+        "type": "function",
+        "z": "07ad4deceb295a11",
+        "name": "temperatures Hamburg",
+        "func": "let temps=global.get(\"h_temps\")\nlet average=0\nlet n=0\nfor(let i=0;i<10;i++){\n    if(temps[i]){\n        n++\n        average = Number(temps[i])+average\n    }\n}\naverage=average/n\nif(n==0){\n    msg.payload.content=\"not enough data! try later\"\n}else{\n    average = average / n\nmsg.payload.content=\"According to sensor.community, the average temperature in Hamburg is \"+average+\"C!\"\n}return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 140,
+        "wires": [
+            [
+                "d9e94a5c0f2b87bc"
+            ]
+        ]
+    },
+    {
+        "id": "97fc9b727e8b61ae",
+        "type": "function",
+        "z": "07ad4deceb295a11",
+        "name": "temperatures Milan",
+        "func": "let temps = global.get(\"m_temps\")\nlet average = 0\nlet n = 0\nfor (let i = 0; i < 10; i++) {\n    if (temps[i]) {\n        n++\n        average = Number(temps[i]) + average\n    }\n}\nif (n == 0) {\n    msg.payload.content = \"not enough data! try later\"\n} else {\n    average = average / n\n    msg.payload.content = \"According to sensor.community, the average temperature in Milan is \" + average + \"C!\"\n} return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 200,
+        "wires": [
+            [
+                "d9e94a5c0f2b87bc"
+            ]
+        ]
+    },
+    {
+        "id": "c79a838fed924be5",
+        "type": "function",
+        "z": "07ad4deceb295a11",
+        "name": "humidity Hamburg",
+        "func": "let hum=global.get(\"h_humidities\")\nfunction min_hum(arr) {\n    let len = arr.length;\n    let min = Infinity;\n    while (len--) {\n        if (Number(arr[len]) < min) {\n            min = Number(arr[len]);\n        }\n    }\n    return min;\n}\n\nfunction max_hum(arr) {\n    let len = arr.length;\n    let max = -Infinity;\n    while (len--) {\n        if (Number(arr[len]) > max) {\n            max = Number(arr[len]);\n        }\n    }\n    return max;\n}\n\nif(!hum[0]){\n    msg.payload.content=\"not enough data! try later\"\n}else{\n    let max=max_hum(hum)\n    let min=min_hum(hum)\nmsg.payload.content=\"According to sensor.community, the max humidity in Hamburg is \"+max+\"% and the min \"+min+\"%!\"\n}return msg;\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 280,
+        "wires": [
+            [
+                "d9e94a5c0f2b87bc"
+            ]
+        ]
+    },
+    {
+        "id": "a5967aec7491df0e",
+        "type": "function",
+        "z": "07ad4deceb295a11",
+        "name": "humidity Milan",
+        "func": "let hum = global.get(\"m_humidities\")\nfunction min_hum(arr) {\n    let len = arr.length;\n    let min = Infinity;\n    while (len--) {\n        if (Number(arr[len]) < min) {\n            min = Number(arr[len]);\n        }\n    }\n    return min;\n}\n\nfunction max_hum(arr) {\n    let len = arr.length;\n    let max = -Infinity;\n    while (len--) {\n        if (Number(arr[len]) > max) {\n            max = Number(arr[len]);\n        }\n    }\n    return max;\n}\n\nif (!hum[0]) {\n    msg.payload.content = \"not enough data! try later\"\n} else {\n    let max = max_hum(hum)\n    let min = min_hum(hum)\n    msg.payload.content = \"According to sensor.community, the max humidity in Milan is \" + max + \"% and the min \" + min + \"%!\"\n} return msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 460,
+        "wires": [
+            [
+                "d9e94a5c0f2b87bc"
+            ]
+        ]
+    },
+    {
+        "id": "156c5509b2bdf8ee",
+        "type": "function",
+        "z": "07ad4deceb295a11",
+        "name": "query names",
+        "func": "msg.payload.content=\"In my whole life i talked to \"\nlet array = flow.get(\"users\")\nfor (let index = 0; index < array.length-2; index++) {\n    msg.payload.content = msg.payload.content+array[index]+', '\n}\nmsg.payload.content = msg.payload.content + array[array.length - 2] + ' and ' + array[array.length - 1]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 520,
+        "wires": [
+            [
+                "d9e94a5c0f2b87bc"
+            ]
+        ]
+    },
+    {
+        "id": "12c114aa1e81765f",
+        "type": "function",
+        "z": "07ad4deceb295a11",
+        "name": "searching for the name",
+        "func": "let array=flow.get(\"users\")\nlet name = msg.payload.content.substring(24, msg.payload.content.length-1)\nif(array.includes(name)){\n    msg.payload.content=\"Yes, I talked to \"+name+' before'\n}else{\n    msg.payload.content =\"No, I never talked to \"+name+' before'\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 580,
+        "wires": [
+            [
+                "d9e94a5c0f2b87bc"
+            ]
+        ]
+    },
+    {
+        "id": "b7b3728432da58ec",
+        "type": "function",
+        "z": "07ad4deceb295a11",
+        "name": "unknown message",
+        "func": "msg.payload.content = \"I don't understand!!\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 360,
+        "wires": [
+            [
+                "d9e94a5c0f2b87bc"
+            ]
+        ]
+    },
+    {
+        "id": "88ec568d72bc2302",
+        "type": "function",
+        "z": "07ad4deceb295a11",
+        "name": "saved name",
+        "func": "msg.payload.content = \"Hi \" + msg.payload.content.substring(11, msg.payload.content.length-1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 240,
+        "wires": [
+            [
+                "d9e94a5c0f2b87bc"
+            ]
+        ]
+    },
+    {
+        "id": "8e8002c211a3bca0",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mqtt.neslab.it",
+        "port": "3200",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "68e5cdf36e1f8a81",
+        "type": "chatbot-telegram-node",
+        "botname": "NSDS-NodeRed-Group12",
+        "usernames": "",
+        "polling": "1000",
+        "store": "",
+        "log": "",
+        "debug": false,
+        "skipMediaFiles": false,
+        "webHook": "",
+        "connectMode": "polling",
+        "storeMessages": true,
+        "enableMissionControl": false,
+        "inspectMessages": true,
+        "chatbotId": ""
+    }
+]
