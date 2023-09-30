@@ -1,2 +1,2 @@
 # NSDS-2022
-Collection of evaluation labs carried on for the Networked Software for Distributed Systems course at Politecnico di Milano.
+This is the collection of evaluation labs carried out for the Networked Software for Distributed Systems course at Politecnico di Milano using different technologies.
