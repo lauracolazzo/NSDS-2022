@@ -3,6 +3,6 @@ This is the collection of evaluation labs carried out for the Networked Software
 
 ## Group members
 
-- Laura Colazzo
+- Laura Colazzo ([@lauracolazzo](https://github.com/lauracolazzo)) <br>laura.colazzo@mail.polimi.it
 - Alessandro Meroni
 - Filippo Giovanni Del Nero
