@@ -13,13 +13,13 @@
 Three input datasets
 1. citiesRegion
 	- Type: static, csv file 
-	- Fields: <u> city </u>, <u> region </u>
+	- Fields: *city*, *region*
 2. citiesPopulation
 	- Type: static, csv file
-	- Fields: <u> id </u> (of the city),<u> city </u>, <u> population </u>
+	- Fields: *id* (of the city), *city*, *population*
 3. bookings
 	- Type: dynamic, stream
-	- Fields: <u> timestamp </u>, <u> value </u>
+	- Fields: *timestamp*, *value*
 	- Each entry with value x indicates that someone booked a hotel in the city with id x
 
 For all queries: limit unnecessary recomputations as much as possible!
